@@ -3,573 +3,253 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <title>Willow &amp; Wave — Pakistan's Online Shopping Destination</title>
+    <meta
+      name="description"
+      content="Willow and Wave — shop laptops, smartphones, audio, watches and bags, delivered across Pakistan."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-
-    <title>Willow and Wave</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <p class="announcement">
+        Free delivery across Pakistan on orders over Rs. 5,000
+      </p>
+
       <div class="navbar">
-        <p>Pakistan Best Online Shopping Destination</p>
-        <div class="logo">
-          <img src="assests/logo.png" width="250" height="250" alt="Logo" />
-        </div>
-        <div class="links navbar">
-          <a href="">Home |</a>
-          <a href="">About |</a>
-          <a href="">Contact |</a>
-          <a href="">Login |</a>
-        </div>
-        <div class="search">
-          <input type="text" placeholder="Search..." />
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-        <div class="cart">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <i class="fa-solid fa-circle-user"></i>
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <a href="#main" class="logo"> Willow <span>&amp;</span> Wave </a>
+
+        <nav class="links" id="primaryNav">
+          <a href="#main">Home</a>
+          <a href="#products">Shop</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="search">
+            <label class="sr-only" for="siteSearch">Search products</label>
+            <input
+              type="text"
+              id="siteSearch"
+              placeholder="Search for laptops, phones, watches…"
+            />
+            <button type="submit" aria-label="Search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <button class="icon-btn" aria-label="Account">
+            <i class="fa-regular fa-circle-user"></i>
+          </button>
+          <button class="icon-btn cart-btn" aria-label="Cart" id="cartBtn">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
         </div>
       </div>
     </header>
-    <main>
-      <div class="container">
-        <div class="left">
-          <h1>Willow and Wave</h1>
-          <p>
-            Willow and Wave is a leading online shopping destination in
-            Pakistan, offering a wide range of products from fashion to
-            electronics. Our mission is to provide customers with a seamless
-            shopping experience, ensuring quality, affordability, and
-            convenience.
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow-free">Shop smarter, not harder</p>
+          <h1>Everything you need, <br />delivered like it grew here.</h1>
+          <p class="hero-lead">
+            Willow and Wave brings fashion, tech and everyday essentials to your
+            door, anywhere in Pakistan. Quality you can trust, prices that make
+            sense, and a checkout that takes minutes.
           </p>
-          <button>Shop Now</button>
+          <div class="hero-actions">
+            <a href="#products" class="btn btn-primary">Shop now</a>
+            <a href="#about" class="btn btn-ghost">Our story</a>
+          </div>
+          <dl class="hero-stats">
+            <div>
+              <dt>50k+</dt>
+              <dd>happy customers</dd>
+            </div>
+            <div>
+              <dt>5</dt>
+              <dd>curated categories</dd>
+            </div>
+            <div>
+              <dt>24–72h</dt>
+              <dd>delivery nationwide</dd>
+            </div>
+          </dl>
         </div>
-        <div class="right"></div>
+        <div class="hero-visual" aria-hidden="true">
+          <svg viewBox="0 0 480 480" class="hero-wave">
+            <path
+              d="M20 260 C 80 180, 160 320, 240 240 S 400 160, 460 220"
+              fill="none"
+              stroke="var(--gold)"
+              stroke-width="3"
+            />
+            <path
+              d="M20 320 C 90 260, 170 380, 250 300 S 410 220, 460 280"
+              fill="none"
+              stroke="var(--willow)"
+              stroke-width="3"
+            />
+            <circle
+              cx="240"
+              cy="240"
+              r="150"
+              fill="var(--sage)"
+              opacity="0.6"
+            />
+          </svg>
+        </div>
+      </section>
+
+      <div class="wave-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+          <path
+            d="M0,32 C240,64 480,0 720,20 C960,40 1200,8 1440,32 L1440,60 L0,60 Z"
+            fill="var(--teal)"
+          ></path>
+        </svg>
       </div>
-      <div class="Hero">
-        <img
-          src="assests/Hero_section.png"
-          width="100%"
-          height="100%"
-          alt="Hero Section"
-        />
-      </div>
-      <div class="products">
-        <h2>Our Products</h2>
-        <div class="product-list">
-          <div class="product-item">
-            <div class="Category-laptop">
-              <h3>Laptops & MacBooks</h3>
-              <img
-                src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGFwdG9wJTIwY29tcHV0ZXJ8ZW58MHx8MHx8fDA%3D"
-                width="400"
-                height="400"
-                alt="Product 1"
-              />
-              <h3>Product 1</h3>
-              <p>$199.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://img.magnific.com/free-photo/laptop-with-white-screen-isolated-white-wall_231208-8594.jpg?semt=ais_hybrid&w=740&q=80"
-                width="400"
-                height="400"
-                alt="Product 2"
-              />
-              <h3>Product 2</h3>
-              <p>$200.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1bOavv4QzatTEGRvLgGvQLh9So7hsT_vyde1SQjIeK_Q91tcjb628Dsc&s=10"
-                width="400"
-                height="400"
-                alt="Product 3"
-              />
-              <h3>Product 3</h3>
-              <p>$210.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSabazVKgs11dJP6PUwXaPbjbsQE-9jtnoQuAqfJpnJAQ&s=10"
-                width="400"
-                height="400"
-                alt="Product 4"
-              />
-              <h3>Product 4</h3>
-              <p>$220.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://images.unsplash.com/photo-1651241680016-cc9e407e7dc3?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXBwbGUlMjBsYXB0b3B8ZW58MHx8MHx8fDA%3D"
-                width="400"
-                height="400"
-                alt="Product 5"
-              />
-              <h3>Product 5</h3>
-              <p>$355.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGFwcGxlJTIwbGFwdG9wfGVufDB8fDB8fHww"
-                width="400"
-                height="400"
-                alt="Product 6"
-              />
-              <h3>Product 6</h3>
-              <p>$410.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTePFJEPgOkwx3O9McPOjLupfF83mAHpAf-aXFqqkc1WTQo-tXsLHovOOCk&s=10"
-                width="400"
-                height="400"
-                alt="Product 7"
-              />
-              <h3>Product 7</h3>
-              <p>$210.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://www.shutterstock.com/image-photo/ankara-turkey-november-11-2025-260nw-2708740939.jpg"
-                width="400"
-                height="400"
-                alt="Product 8"
-              />
-              <h3>Product 8</h3>
-              <p>$510.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ9sHs5lsgtdz1ujCpGRvL-VvV3dV_c85Flwj0gSZFXQsvHVbVP1AwT3M&s=10"
-                width="400"
-                height="400"
-                alt="Product 9"
-              />
-              <h3>Product 9</h3>
-              <p>$240.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvXsdW1Wr4sQtfUOacrDHm5xSYxj__A9GBPRZ9dsRUnSoGoYInOl9gHN4P&s=10"
-                width="400"
-                height="400"
-                alt="Product 10"
-              />
-              <h3>Product 10</h3>
-              <p>$70.99</p>
-            </div>
-            <div class="Category-Mobile-Phones">
-              <h3>Smartphones</h3>
-              <img
-                src="https://m.media-amazon.com/images/I/61ye1KFCwFL._AC_SY445_.jpg"
-                width="400"
-                height="400"
-                alt="Product 1"
-              />
-              <h3>Product 1</h3>
-              <p>$70.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2WjjMQXUOpkI4L4U6-HbiXpW3PtVe2OojuM9XWKOkCC67Im0Km7RdL_VI&s=10"
-                width="400"
-                height="400"
-                alt="Product 2"
-              />
-              <h3>Product 2</h3>
-              <p>$90.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg0tSkX9qI4psW5vn7RWdizfAW6NSTAGz_A5ey7k8CrQ&s"
-                width="400"
-                height="400"
-                alt="Product 3"
-              />
-              <h3>Product 3</h3>
-              <p>$65.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/DSC01718-1.jpg?quality=90&strip=all&crop=0%2C16.66015625%2C100%2C66.6796875&w=2400"
-                width="400"
-                height="400"
-                alt="Product 4"
-              />
-              <h3>Product 4</h3>
-              <p>$220.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://airkart.com/cdn/shop/files/1_d3e95162-667d-47e1-b7d3-034a07de3933.jpg?v=1778490412&width=533"
-                width="400"
-                height="400"
-                alt="Product 5"
-              />
-              <h3>Product 5</h3>
-              <p>$40.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://www.lahorecentre.com/cdn/shop/files/VivoV80Lite256GBStorage_8GBRam.jpg?v=1788171017&width=1080"
-                width="400"
-                height="400"
-                alt="Product 6"
-              />
-              <h3>Product 6</h3>
-              <p>$79.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2vH_XYLSxA3aGqxWQGSUyimLD31kYE2yRn741x0QU9vSPBG0X0J4uYlY5&s=10"
-                width="400"
-                height="400"
-                alt="Product 7"
-              />
-              <h3>Product 7</h3>
-              <p>$110.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://infinix.pk/wp-content/uploads/2026/02/20250730-144456_1-300x400.png"
-                width="400"
-                height="400"
-                alt="Product 8"
-              />
-              <h3>Product 8</h3>
-              <p>$109.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd2nwKnUFake-M9G8WE7SudWLHFh3USiSFeJ9ZAlkPP26yr40CglDf-ch7&s=10"
-                width="400"
-                height="400"
-                alt="Product 9"
-              />
-              <h3>Product 9</h3>
-              <p>$220.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRocYlq1NHxLG2ywERf9paEw5SKgJLZyw1uGtZcgulOQ&s=10"
-                width="400"
-                height="400"
-                alt="Product 10"
-              />
-              <h3>Product 10</h3>
-              <p>$80.99</p>
-            </div>
-            <div class="Air-buds">
-              <h3>Air buds</h3>
-              <img
-                src="https://audionic.co/cdn/shop/files/AirbudSignatureS680-Image-1_3_copy.png?v=1776334398"
-                width="400"
-                height="400"
-                alt="Product 1"
-              />
-              <h3>Product 1</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-N-mji5XjPee8Op_Szz3tGAX-dGxfgMl5Hj86O6-V0CB2Zc9DRF36KNM&s=10"
-                width="400"
-                height="400"
-                alt="Product 2"
-              />
-              <h3>Product 2</h3>
-              <p>$15.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://audionic.co/cdn/shop/files/AirbudSignatureS680-Image-1_3_copy.png?v=1776334398&width=1080"
-                width="400"
-                height="400"
-                alt="Product 3"
-              />
-              <h3>Product 3</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://audionic.co/cdn/shop/files/AirbudSignatureS680-Image-4_4_copy.png?v=1776334398"
-                width="400"
-                height="400"
-                alt="Product 4"
-              />
-              <h3>Product 4</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuYfT1bK3YCD3Nq_BaPH_o_NDdiHSXsLDzEwr6pImP5g&s"
-                width="400"
-                height="400"
-                alt="Product 5"
-              />
-              <h3>Product 5</h3>
-              <p>$10.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRU9nQx0oZ4Io__WD9mivvqvAm-DByUre7KJ_l0Rktvww&s=10"
-                width="400"
-                height="400"
-                alt="Product 6"
-              />
-              <h3>Product 6</h3>
-              <p>$19.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://audionic.co/cdn/shop/files/Green_Render.effectsResult.0006_copy.webp?v=1767354144&width=2048"
-                width="400"
-                height="400"
-                alt="Product 7"
-              />
-              <h3>Product 7</h3>
-              <p>$30.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://audionic.co/cdn/shop/files/Black_001.webp?v=1777702216"
-                width="400"
-                height="400"
-                alt="Product 8"
-              />
-              <h3>Product 8</h3>
-              <p>$30.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://audionic.co/cdn/shop/files/Black_Red_4.webp?v=1776498618"
-                width="400"
-                height="400"
-                alt="Product 9"
-              />
-              <h3>Product 9</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://audionic.co/cdn/shop/files/Black_4_3f015986-2be6-47e7-8554-1f48a4f921e2.webp?v=1776498618&width=2048"
-                width="400"
-                height="400"
-                alt="Product 10"
-              />
-              <h3>Product 10</h3>
-              <p>$10.99</p>
-            </div>
-            <div class="Watches">
-              <h3>Watches</h3>
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJb4bsfucEZKwJcBLdL088s8Eo1MRgDHnY3Sg6zxfLMw&s=10"
-                width="400"
-                height="400"
-                alt="Product 1"
-              />
-              <h3>Product 1</h3>
-              <p>$40.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJckicAlIOMpzjkRU_HqumEljcfONDaTbKRbzgAWqxCAwrS6QkZshtPOc&s=10"
-                width="400"
-                height="400"
-                alt="Product 2"
-              />
-              <h3>Product 2</h3>
-              <p>$35.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS11FD0-L7PFKejDr74AZ-HEzT744WAjXZrQ-D55SbeSLjEJUmlIEnUHjNG&s=10"
-                width="400"
-                height="400"
-                alt="Product 3"
-              />
-              <h3>Product 3</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxEtobTq1UKCheilWWYqkcbhrHAC4zY0tiMxlcGEcqsQ&s=10"
-                width="400"
-                height="400"
-                alt="Product 4"
-              />
-              <h3>Product 4</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://content.thewosgroup.com/productimage/17382325/17382325_1.jpg?impolicy=lister"
-                width="400"
-                height="400"
-                alt="Product 5"
-              />
-              <h3>Product 5</h3>
-              <p>$25.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6G-EfCj_rcaR8BIN6Ck10KUy6RpY2XR1esbtZyqP4yA&s=10"
-                width="400"
-                height="400"
-                alt="Product 6"
-              />
-              <h3>Product 6</h3>
-              <p>$19.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://content.thewosgroup.com/productimage/17382325/17382325_1.jpg?impolicy=lister"
-                width="400"
-                height="400"
-                alt="Product 7"
-              />
-              <h3>Product 7</h3>
-              <p>$30.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeDHQSg02FJiO9mY71lsusjkniEQxfiL1c1hQnBzhB0IxFU2PFhzDrsKkH&s=10"
-                width="400"
-                height="400"
-                alt="Product 8"
-              />
-              <h3>Product 8</h3>
-              <p>$30.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMyg5pqy-vG9MshSvWvLR7qfdNwIBDnBTx1fx4H9JhIQ&s"
-                width="400"
-                height="400"
-                alt="Product 9"
-              />
-              <h3>Product 9</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://i5.walmartimages.com/seo/Poedagar-Men-Watch-Luxury-Business-Quartz-Watches-Stainless-Stain-Strap-Sport-Chronograph-Men-39-s-Wristwatch-Waterproof-Luminous-Quartz-Wristwatches_7377e736-da3c-4991-80d2-e32d1ffc8ea3.39a950fcd8201e779d06ca5c6e77a4c3.jpeg"
-                width="400"
-                height="400"
-                alt="Product 10"
-              />
-              <h3>Product 10</h3>
-              <p>$40.99</p>
-            </div>
-            <div class="Bags">
-              <h3>Bags</h3>
-              <img
-                src="https://int.stylo.pk/cdn/shop/files/P3661418_1800x1800.jpg?v=1778756124"
-                width="400"
-                height="400"
-                alt="Product 1"
-              />
-              <h3>Product 1</h3>
-              <p>$10.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfxc3-t3G0WD0VPq3k2wKwI-slNGGx1_V9RhNsjprHXtyIZvafaV0YIuIe&s=10"
-                width="400"
-                height="400"
-                alt="Product 2"
-              />
-              <h3>Product 2</h3>
-              <p>$10.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://unze.com.pk/cdn/shop/files/bg9383b_4dccd64c-3582-47bc-86d7-860a787acf8e.jpg?v=1778584127"
-                width="400"
-                height="400"
-                alt="Product 3"
-              />
-              <h3>Product 3</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://unze.com.pk/cdn/shop/files/bg9383a_eebf91e8-8c56-4381-a1f9-0801d866f236.jpg?v=1778584127"
-                width="400"
-                height="400"
-                alt="Product 4"
-              />
-              <h3>Product 4</h3>
-              <p>$18.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSID3WvXMnxGQE2SD6y3FYY0xA0XQhEYxV7-5kgI9XjiosWKa7uCg27nMw&s=10"
-                width="400"
-                height="400"
-                alt="Product 5"
-              />
-              <h3>Product 5</h3>
-              <p>$8.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7g-qvOis3WooZQmX2vZ8WZTJAmAFNTZtF78oZMk6YT_i3amtvj8VlShQ&s=10"
-                width="400"
-                height="400"
-                alt="Product 6"
-              />
-              <h3>Product 6</h3>
-              <p>$19.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://www.vegas.pk/beta-admin/public/storage/images/product/1690267645--7a44479c-2ab6-11ee-8952-0242ac110007.jpg"
-                width="400"
-                height="400"
-                alt="Product 7"
-              />
-              <h3>Product 7</h3>
-              <p>$10.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ6TS-dcPjup2Hl6BgkUrBjDav16SsMDpRCgGcPZ6Fa8wsfBivBf_OYhQ&s=10"
-                width="400"
-                height="400"
-                alt="Product 8"
-              />
-              <h3>Product 8</h3>
-              <p>$9.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsm-C68SUZ96C4-dpEit7Yyex_H0EzS9T3XYAaF0q0UcTPXYNSM4Vu1Ss9&s=10"
-                width="400"
-                height="400"
-                alt="Product 9"
-              />
-              <h3>Product 9</h3>
-              <p>$20.99</p>
-            </div>
-            <div class="product-item">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTolwE4iKr6KVd2pkrGi-eUud9AxvzOk8oGzEdWtbl2WvaPw63a6itYEFk&s=10"
-                width="400"
-                height="400"
-                alt="Product 10"
-              />
-              <h3>Product 10</h3>
-              <p>$20.99</p>
-            </div>
+
+      <section class="categories" id="categories" aria-label="Shop by category">
+        <button class="cat-chip active" data-filter="all">All</button>
+        <button class="cat-chip" data-filter="laptops">
+          Laptops &amp; MacBooks
+        </button>
+        <button class="cat-chip" data-filter="phones">Smartphones</button>
+        <button class="cat-chip" data-filter="audio">Air Buds</button>
+        <button class="cat-chip" data-filter="watches">Watches</button>
+        <button class="cat-chip" data-filter="bags">Bags</button>
+      </section>
+
+      <section class="products" id="products">
+        <div class="section-head">
+          <h2>Our products</h2>
+          <p>Handpicked pieces across tech and everyday carry.</p>
+        </div>
+        <div id="productRoot">
+          <!-- product groups are rendered here by script.js -->
+        </div>
+      </section>
+
+      <section class="perks" aria-label="Why shop with us">
+        <div class="perk">
+          <i class="fa-solid fa-truck-fast"></i>
+          <h3>Fast delivery</h3>
+          <p>Nationwide dispatch within 24–72 hours, tracked door to door.</p>
+        </div>
+        <div class="perk">
+          <i class="fa-solid fa-rotate-left"></i>
+          <h3>Easy returns</h3>
+          <p>7-day no-questions returns on unused items, still sealed.</p>
+        </div>
+        <div class="perk">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h3>Secure checkout</h3>
+          <p>Cash on delivery and card payments, both fully protected.</p>
+        </div>
+        <div class="perk">
+          <i class="fa-solid fa-headset"></i>
+          <h3>Real support</h3>
+          <p>A human team on WhatsApp and call, seven days a week.</p>
+        </div>
+      </section>
+
+      <section class="about" id="about">
+        <h2>About Willow and Wave</h2>
+        <p>
+          Willow and Wave is an online shopping destination in Pakistan,
+          carrying a curated range of products from electronics to accessories.
+          We started with one promise: make good products easy to find and easy
+          to trust, at prices that stay honest.
+        </p>
+      </section>
+
+      <section class="newsletter" id="contact">
+        <div class="newsletter-copy">
+          <h2>Get first look at new drops</h2>
+          <p>
+            One email a week. New arrivals, restocks and the odd discount code.
+          </p>
+        </div>
+        <form class="newsletter-form" id="newsletterForm">
+          <label class="sr-only" for="newsletterEmail">Email address</label>
+          <input
+            type="email"
+            id="newsletterEmail"
+            placeholder="you@example.com"
+            required
+          />
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <p class="logo">Willow <span>&amp;</span> Wave</p>
+          <p>
+            Pakistan's online shopping destination for fashion, tech and
+            everyday essentials.
+          </p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <a href="#products">Laptops &amp; MacBooks</a>
+          <a href="#products">Smartphones</a>
+          <a href="#products">Air Buds</a>
+          <a href="#products">Watches</a>
+          <a href="#products">Bags</a>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <a href="#contact">Contact us</a>
+          <a href="#about">About us</a>
+          <a href="#">Shipping &amp; returns</a>
+          <a href="#">Track my order</a>
+        </div>
+        <div>
+          <h4>Follow along</h4>
+          <div class="social-row">
+            <a href="#" aria-label="Facebook"
+              ><i class="fa-brands fa-facebook"></i
+            ></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+            <a href="#" aria-label="TikTok"
+              ><i class="fa-brands fa-tiktok"></i
+            ></a>
+            <a href="#" aria-label="WhatsApp"
+              ><i class="fa-brands fa-whatsapp"></i
+            ></a>
           </div>
         </div>
       </div>
-    </main>
+      <p class="footer-bottom">© 2026 Willow and Wave. All rights reserved.</p>
+    </footer>
 
     <script src="script.js"></script>
   </body>
