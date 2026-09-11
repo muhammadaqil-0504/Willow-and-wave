@@ -58,7 +58,7 @@
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
           </div>
-          <button class="icon-btn" aria-label="Account">
+          <button class="icon-btn" id="accountBtn" aria-label="Account">
             <i class="fa-regular fa-circle-user"></i>
           </button>
           <button class="icon-btn cart-btn" aria-label="Cart" id="cartBtn">
@@ -250,6 +250,103 @@
       </div>
       <p class="footer-bottom">© 2026 Willow and Wave. All rights reserved.</p>
     </footer>
+
+    <!-- Product detail modal -->
+    <div class="modal-overlay" id="productModal" data-close-modal>
+      <div
+        class="modal-box modal-box-wide"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Product details"
+      >
+        <button class="modal-close" data-close-modal aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div id="productModalBody"></div>
+      </div>
+    </div>
+
+    <!-- Login / sign up modal -->
+    <div class="modal-overlay" id="loginModal" data-close-modal>
+      <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Account"
+      >
+        <button class="modal-close" data-close-modal aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div id="authModalBody">
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="loginPanel">
+              Log in
+            </button>
+            <button class="auth-tab" data-tab="signupPanel">Sign up</button>
+          </div>
+
+          <div class="auth-form active" id="loginPanel">
+            <form id="loginForm">
+              <label for="loginEmail">Email</label>
+              <input
+                type="email"
+                id="loginEmail"
+                required
+                placeholder="you@example.com"
+              />
+              <label for="loginPassword">Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                required
+                placeholder="••••••••"
+                minlength="6"
+              />
+              <button type="submit" class="btn btn-primary">Log in</button>
+            </form>
+          </div>
+
+          <div class="auth-form" id="signupPanel">
+            <form id="signupForm">
+              <label for="signupName">Full name</label>
+              <input
+                type="text"
+                id="signupName"
+                required
+                placeholder="Your name"
+              />
+              <label for="signupEmail">Email</label>
+              <input
+                type="email"
+                id="signupEmail"
+                required
+                placeholder="you@example.com"
+              />
+              <label for="signupPassword">Password</label>
+              <input
+                type="password"
+                id="signupPassword"
+                required
+                placeholder="••••••••"
+                minlength="6"
+              />
+              <label for="signupConfirm">Confirm password</label>
+              <input
+                type="password"
+                id="signupConfirm"
+                required
+                placeholder="••••••••"
+                minlength="6"
+              />
+              <p class="auth-error" id="signupError"></p>
+              <button type="submit" class="btn btn-primary">
+                Create account
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
