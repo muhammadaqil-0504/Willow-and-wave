@@ -1,10 +1,3 @@
-// =========================================================
-// Product data
-// Note: the original image links were a mix of broken/expired
-// thumbnail links and several repeated URLs (e.g. 3 different bags
-// pointed to the same photo). Every product now gets a real,
-// category-matched photo with no repeats — see getImage() below.
-// =========================================================
 const PRODUCT_GROUPS = [
   {
     key: "laptops",
