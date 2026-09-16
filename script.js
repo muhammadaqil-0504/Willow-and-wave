@@ -425,7 +425,7 @@ function getSpecs(groupKey, item, index) {
 }
 
 // ===== State =====
-let cartCount = 0;
+let cart = []; // { groupKey, index, qty }
 const productRoot = document.getElementById("productRoot");
 
 // ===== Render products =====
@@ -510,17 +510,122 @@ searchInput.addEventListener("input", () => {
   renderGroups(filtered);
 });
 
-// ===== Add to cart (grid buttons) =====
-function bumpCart(n = 1) {
-  cartCount += n;
-  document.getElementById("cartCount").textContent = cartCount;
+// =========================================================
+// Cart
+// =========================================================
+function findCartLine(groupKey, index) {
+  return cart.find(
+    (line) => line.groupKey === groupKey && line.index === index,
+  );
 }
+
+function addToCart(groupKey, index, qty = 1) {
+  const existing = findCartLine(groupKey, index);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ groupKey, index, qty });
+  }
+  updateCartCount();
+}
+
+function removeFromCart(groupKey, index) {
+  cart = cart.filter(
+    (line) => !(line.groupKey === groupKey && line.index === index),
+  );
+  updateCartCount();
+  renderCartModal();
+}
+
+function changeCartQty(groupKey, index, delta) {
+  const line = findCartLine(groupKey, index);
+  if (!line) return;
+  line.qty = Math.max(1, line.qty + delta);
+  updateCartCount();
+  renderCartModal();
+}
+
+function cartItemData(line) {
+  const group = PRODUCT_GROUPS.find((g) => g.key === line.groupKey);
+  const item = group.items[line.index];
+  return { group, item };
+}
+
+function updateCartCount() {
+  const totalQty = cart.reduce((sum, line) => sum + line.qty, 0);
+  document.getElementById("cartCount").textContent = totalQty;
+}
+
+function renderCartModal() {
+  const body = document.getElementById("cartModalBody");
+
+  if (cart.length === 0) {
+    body.innerHTML = `<p class="cart-empty">Your cart is empty. Go add something nice.</p>`;
+    return;
+  }
+
+  let total = 0;
+  const rows = cart
+    .map((line) => {
+      const { group, item } = cartItemData(line);
+      const subtotal = item.price * line.qty;
+      total += subtotal;
+      return `
+        <li class="cart-row" data-group="${line.groupKey}" data-index="${line.index}">
+          <img src="${getImage(item)}" alt="${item.name}" />
+          <div class="cart-row-info">
+            <p class="cart-row-name">${item.name}</p>
+            <p class="cart-row-price">$${item.price.toFixed(2)} × ${line.qty} = $${subtotal.toFixed(2)}</p>
+          </div>
+          <div class="cart-row-qty">
+            <button type="button" class="cart-qty-minus" aria-label="Decrease quantity">−</button>
+            <span>${line.qty}</span>
+            <button type="button" class="cart-qty-plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="button" class="cart-row-remove" aria-label="Remove ${item.name}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </li>`;
+    })
+    .join("");
+
+  body.innerHTML = `
+    <ul class="cart-list">${rows}</ul>
+    <div class="cart-summary">
+      <span>Total</span>
+      <strong>$${total.toFixed(2)}</strong>
+    </div>
+    <button class="btn btn-primary cart-checkout-btn" id="checkoutBtn">Checkout</button>
+  `;
+
+  document.getElementById("checkoutBtn").addEventListener("click", () => {
+    body.innerHTML = `<p class="cart-empty">This is a front-end demo — connect a real payment/checkout backend to complete orders.</p>`;
+  });
+}
+
+document.getElementById("cartModalBody").addEventListener("click", (e) => {
+  const row = e.target.closest(".cart-row");
+  if (!row) return;
+  const groupKey = row.dataset.group;
+  const index = Number(row.dataset.index);
+
+  if (e.target.closest(".cart-qty-plus")) changeCartQty(groupKey, index, 1);
+  else if (e.target.closest(".cart-qty-minus"))
+    changeCartQty(groupKey, index, -1);
+  else if (e.target.closest(".cart-row-remove"))
+    removeFromCart(groupKey, index);
+});
+
+document.getElementById("cartBtn").addEventListener("click", () => {
+  renderCartModal();
+  openModal(document.getElementById("cartModal"));
+});
 
 productRoot.addEventListener("click", (e) => {
   const btn = e.target.closest(".add-btn");
   if (btn) {
     e.stopPropagation();
-    bumpCart(1);
+    addToCart(btn.dataset.group, Number(btn.dataset.index), 1);
     btn.textContent = "Added ✓";
     setTimeout(() => (btn.textContent = "Add to cart"), 1200);
     return;
@@ -584,7 +689,7 @@ function openProductModal(groupKey, index) {
     qtyInput.value = Math.min(10, Number(qtyInput.value) + 1);
   });
   document.getElementById("modalAddBtn").addEventListener("click", () => {
-    bumpCart(Number(qtyInput.value));
+    addToCart(groupKey, index, Number(qtyInput.value));
     const btn = document.getElementById("modalAddBtn");
     btn.textContent = "Added ✓";
     setTimeout(() => (btn.textContent = "Add to cart"), 1200);
@@ -627,7 +732,6 @@ document.addEventListener("keydown", (e) => {
 // Login / Sign up modal
 // =========================================================
 const loginModal = document.getElementById("loginModal");
-const cartBtn = document.getElementById("cartBtn");
 
 document
   .getElementById("accountBtn")
