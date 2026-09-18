@@ -1,4 +1,28 @@
 // =========================================================
+// Backend connection
+// If you're not running the Node/Express backend, leave this as-is —
+// login, signup and checkout will simply show a clear error instead
+// of silently pretending to work.
+// =========================================================
+const API_BASE = "http://localhost:3000/api";
+
+function getToken() {
+  return localStorage.getItem("willow_token");
+}
+function setAuth(token, user) {
+  localStorage.setItem("willow_token", token);
+  localStorage.setItem("willow_user", JSON.stringify(user));
+}
+function clearAuth() {
+  localStorage.removeItem("willow_token");
+  localStorage.removeItem("willow_user");
+}
+function getCurrentUser() {
+  const raw = localStorage.getItem("willow_user");
+  return raw ? JSON.parse(raw) : null;
+}
+
+// =========================================================
 // Product data — using the EXACT original image URLs you provided.
 // Note: several of these are Google "encrypted-tbn0" thumbnail
 // links, which are temporary and can expire or fail to load in
@@ -508,6 +532,9 @@ searchInput.addEventListener("input", () => {
     }))
     .filter((g) => g.items.length > 0);
   renderGroups(filtered);
+  document
+    .getElementById("products")
+    .scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 // =========================================================
@@ -598,8 +625,44 @@ function renderCartModal() {
     <button class="btn btn-primary cart-checkout-btn" id="checkoutBtn">Checkout</button>
   `;
 
-  document.getElementById("checkoutBtn").addEventListener("click", () => {
-    body.innerHTML = `<p class="cart-empty">This is a front-end demo — connect a real payment/checkout backend to complete orders.</p>`;
+  document.getElementById("checkoutBtn").addEventListener("click", async () => {
+    const user = getCurrentUser();
+    if (!user) {
+      body.innerHTML = `<p class="cart-empty">Please log in first to check out.</p>
+        <button class="btn btn-primary cart-checkout-btn" id="goToLoginBtn">Log in</button>`;
+      document.getElementById("goToLoginBtn").addEventListener("click", () => {
+        closeModal(document.getElementById("cartModal"));
+        renderAuthModal();
+        openModal(loginModal);
+      });
+      return;
+    }
+
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = "Placing order...";
+
+    try {
+      const items = cart.map((line) => {
+        const { group, item } = cartItemData(line);
+        return {
+          name: item.name,
+          category: group.key,
+          price: item.price,
+          qty: line.qty,
+        };
+      });
+      const order = await apiRequest("/checkout", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${getToken()}` },
+        body: JSON.stringify({ items }),
+      });
+      cart = [];
+      updateCartCount();
+      body.innerHTML = `<p class="cart-empty">Order #${order.orderId} placed — total $${order.total.toFixed(2)}. Thank you!</p>`;
+    } catch (err) {
+      body.innerHTML = `<p class="cart-empty">${err.message}</p>`;
+    }
   });
 }
 
@@ -733,9 +796,10 @@ document.addEventListener("keydown", (e) => {
 // =========================================================
 const loginModal = document.getElementById("loginModal");
 
-document
-  .getElementById("accountBtn")
-  .addEventListener("click", () => openModal(loginModal));
+document.getElementById("accountBtn").addEventListener("click", () => {
+  renderAuthModal();
+  openModal(loginModal);
+});
 
 document.querySelectorAll(".auth-tab").forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -750,15 +814,82 @@ document.querySelectorAll(".auth-tab").forEach((tab) => {
   });
 });
 
-document.getElementById("loginForm").addEventListener("submit", (e) => {
+function showFormsPanel() {
+  document.getElementById("authFormsPanel").style.display = "";
+  document.getElementById("authDynamicPanel").style.display = "none";
+}
+
+function showDynamicPanel(html) {
+  document.getElementById("authFormsPanel").style.display = "none";
+  const dynamicPanel = document.getElementById("authDynamicPanel");
+  dynamicPanel.innerHTML = html;
+  dynamicPanel.style.display = "";
+}
+
+function renderAuthModal() {
+  const user = getCurrentUser();
+  if (!user) {
+    showFormsPanel();
+    return;
+  }
+  showDynamicPanel(`
+    <div class="auth-success">
+      <i class="fa-solid fa-circle-user"></i>
+      <p>Signed in as <strong>${user.name}</strong> (${user.email})</p>
+      <button class="btn btn-ghost" id="logoutBtn">Log out</button>
+    </div>
+  `);
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    clearAuth();
+    closeModal(loginModal);
+  });
+}
+
+async function apiRequest(path, options = {}) {
+  let response;
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      headers: {
+        "Content-Type": "application/json",
+        ...(options.headers || {}),
+      },
+      ...options,
+    });
+  } catch (err) {
+    throw new Error(
+      "Couldn't reach the backend. Is it running? Start it with `npm start` in the backend folder.",
+    );
+  }
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.error || "Something went wrong.");
+  return data;
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const email = document.getElementById("loginEmail").value;
-  showAuthSuccess(`Welcome back — signed in as ${email}.`);
+  const password = document.getElementById("loginPassword").value;
+  const submitBtn = e.target.querySelector("button[type='submit']");
+  submitBtn.disabled = true;
+
+  try {
+    const data = await apiRequest("/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+    setAuth(data.token, data.user);
+    showAuthSuccess(`Welcome back — signed in as ${data.user.name}.`);
+  } catch (err) {
+    showAuthError("loginForm", err.message);
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
 
-document.getElementById("signupForm").addEventListener("submit", (e) => {
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = document.getElementById("signupName").value;
+  const email = document.getElementById("signupEmail").value;
   const pass = document.getElementById("signupPassword").value;
   const confirm = document.getElementById("signupConfirm").value;
   const errorEl = document.getElementById("signupError");
@@ -769,17 +900,40 @@ document.getElementById("signupForm").addEventListener("submit", (e) => {
     return;
   }
   errorEl.style.display = "none";
-  showAuthSuccess(`Account created — welcome, ${name}!`);
+
+  const submitBtn = e.target.querySelector("button[type='submit']");
+  submitBtn.disabled = true;
+
+  try {
+    const data = await apiRequest("/signup", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password: pass }),
+    });
+    setAuth(data.token, data.user);
+    showAuthSuccess(`Account created — welcome, ${data.user.name}!`);
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.style.display = "block";
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
 
+function showAuthError(formId, message) {
+  const errorEl = document.getElementById(
+    formId === "loginForm" ? "loginError" : "signupError",
+  );
+  errorEl.textContent = message;
+  errorEl.style.display = "block";
+}
+
 function showAuthSuccess(message) {
-  document.getElementById("authModalBody").innerHTML = `
+  showDynamicPanel(`
     <div class="auth-success">
       <i class="fa-solid fa-circle-check"></i>
       <p>${message}</p>
-      <p class="auth-note">This is a front-end demo — connect a real backend to store accounts.</p>
     </div>
-  `;
+  `);
 }
 
 // ===== Mobile nav toggle =====
