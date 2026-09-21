@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Expected body: { items: [{ name, category, price, qty }, ...] }
 router.post("/checkout", requireAuth, (req, res) => {
-  const { items } = req.body;
+  const items = req.body?.items;
 
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: "Cart is empty — nothing to check out." });
