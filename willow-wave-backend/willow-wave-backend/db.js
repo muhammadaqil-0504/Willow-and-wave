@@ -23,6 +23,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     total REAL NOT NULL,
+    payment_method TEXT NOT NULL DEFAULT 'cod',
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
@@ -37,5 +38,16 @@ db.exec(`
     FOREIGN KEY (order_id) REFERENCES orders(id)
   );
 `);
+
+// Safe migration: if this database was created before `payment_method`
+// existed on the orders table, add it now. Running on an already-migrated
+// database just fails quietly (column already exists) — that's expected.
+try {
+  db.exec(
+    "ALTER TABLE orders ADD COLUMN payment_method TEXT NOT NULL DEFAULT 'cod'",
+  );
+} catch (err) {
+  // Column already exists — nothing to do.
+}
 
 module.exports = db;

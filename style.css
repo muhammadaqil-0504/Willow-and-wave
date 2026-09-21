@@ -354,6 +354,7 @@ button {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 3rem 1.5rem 1rem;
+  scroll-margin-top: 90px;
 }
 
 .section-head {
@@ -803,6 +804,9 @@ body.modal-locked {
 .auth-success p {
   margin-bottom: 0.5rem;
 }
+.auth-success .btn {
+  margin: 0.4rem 0.3rem 0;
+}
 .auth-note {
   color: var(--ink-soft);
   font-size: 0.85rem;
@@ -811,6 +815,111 @@ body.modal-locked {
 .newsletter-thanks {
   font-weight: 600;
   color: var(--teal-dark);
+}
+
+/* Payment method */
+.payment-method {
+  margin: 1rem 0 1.2rem;
+}
+.payment-method-label {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.6rem;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+.payment-option:has(input:checked) {
+  border-color: var(--gold);
+  background: var(--cream);
+}
+.payment-option input {
+  accent-color: var(--gold);
+}
+.payment-option i {
+  color: var(--teal-dark);
+  width: 18px;
+}
+
+/* Order confirmation */
+.order-confirmation {
+  text-align: center;
+  padding: 1rem 0;
+}
+.order-confirmation > i {
+  font-size: 2.4rem;
+  color: var(--teal);
+  margin-bottom: 0.8rem;
+}
+.order-confirmation h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+.confirm-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  text-align: left;
+}
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+.confirm-payment {
+  margin: 1rem 0 1.2rem;
+  color: var(--ink-soft);
+}
+.confirm-payment strong {
+  color: var(--ink);
+}
+
+/* Order history */
+.order-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+.order-history-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.order-history-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+.order-history-items {
+  list-style: none;
+  margin: 0 0 0.6rem;
+  padding: 0;
+  font-size: 0.88rem;
+}
+.order-history-items li {
+  padding: 0.2rem 0;
+}
+.order-history-foot {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+  font-weight: 600;
 }
 
 /* Cart modal */

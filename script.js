@@ -618,6 +618,19 @@ function renderCartModal() {
 
   body.innerHTML = `
     <ul class="cart-list">${rows}</ul>
+
+    <div class="payment-method">
+      <p class="payment-method-label">Payment method</p>
+      <label class="payment-option">
+        <input type="radio" name="paymentMethod" value="cod" checked />
+        <span><i class="fa-solid fa-money-bill-wave"></i> Cash on delivery</span>
+      </label>
+      <label class="payment-option">
+        <input type="radio" name="paymentMethod" value="card" />
+        <span><i class="fa-regular fa-credit-card"></i> Card</span>
+      </label>
+    </div>
+
     <div class="cart-summary">
       <span>Total</span>
       <strong>$${total.toFixed(2)}</strong>
@@ -638,6 +651,9 @@ function renderCartModal() {
       return;
     }
 
+    const paymentMethod = document.querySelector(
+      "input[name='paymentMethod']:checked",
+    ).value;
     const checkoutBtn = document.getElementById("checkoutBtn");
     checkoutBtn.disabled = true;
     checkoutBtn.textContent = "Placing order...";
@@ -655,15 +671,90 @@ function renderCartModal() {
       const order = await apiRequest("/checkout", {
         method: "POST",
         headers: { Authorization: `Bearer ${getToken()}` },
-        body: JSON.stringify({ items }),
+        body: JSON.stringify({ items, paymentMethod }),
       });
       cart = [];
       updateCartCount();
-      body.innerHTML = `<p class="cart-empty">Order #${order.orderId} placed — total $${order.total.toFixed(2)}. Thank you!</p>`;
+      renderOrderConfirmation(order);
     } catch (err) {
       body.innerHTML = `<p class="cart-empty">${err.message}</p>`;
     }
   });
+}
+
+function renderOrderConfirmation(order) {
+  const body = document.getElementById("cartModalBody");
+  const methodLabel =
+    order.paymentMethod === "card" ? "Card" : "Cash on delivery";
+
+  const itemRows = order.items
+    .map(
+      (item) => `
+      <li class="confirm-row">
+        <span>${item.name} × ${item.qty}</span>
+        <span>$${(item.price * item.qty).toFixed(2)}</span>
+      </li>`,
+    )
+    .join("");
+
+  body.innerHTML = `
+    <div class="order-confirmation">
+      <i class="fa-solid fa-circle-check"></i>
+      <h3>Order #${order.orderId} placed!</h3>
+      <ul class="confirm-list">${itemRows}</ul>
+      <div class="cart-summary">
+        <span>Total</span>
+        <strong>$${order.total.toFixed(2)}</strong>
+      </div>
+      <p class="confirm-payment">Payment method: <strong>${methodLabel}</strong></p>
+      <button class="btn btn-ghost" id="viewOrdersBtn">View my orders</button>
+    </div>
+  `;
+  document
+    .getElementById("viewOrdersBtn")
+    .addEventListener("click", renderOrderHistory);
+}
+
+async function renderOrderHistory() {
+  const body = document.getElementById("cartModalBody");
+  body.innerHTML = `<p class="cart-empty">Loading your orders...</p>`;
+
+  try {
+    const orders = await apiRequest("/orders", {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    });
+    if (orders.length === 0) {
+      body.innerHTML = `<p class="cart-empty">You haven't placed any orders yet.</p>`;
+      return;
+    }
+    const ordersHTML = orders
+      .map((order) => {
+        const methodLabel =
+          order.payment_method === "card" ? "Card" : "Cash on delivery";
+        const itemsList = order.items
+          .map(
+            (item) =>
+              `<li>${item.product_name} × ${item.quantity} — $${item.unit_price.toFixed(2)}</li>`,
+          )
+          .join("");
+        return `
+          <div class="order-history-card">
+            <div class="order-history-head">
+              <strong>Order #${order.id}</strong>
+              <span>${order.created_at}</span>
+            </div>
+            <ul class="order-history-items">${itemsList}</ul>
+            <div class="order-history-foot">
+              <span>${methodLabel}</span>
+              <strong>$${order.total.toFixed(2)}</strong>
+            </div>
+          </div>`;
+      })
+      .join("");
+    body.innerHTML = `<div class="order-history-list">${ordersHTML}</div>`;
+  } catch (err) {
+    body.innerHTML = `<p class="cart-empty">${err.message}</p>`;
+  }
 }
 
 document.getElementById("cartModalBody").addEventListener("click", (e) => {
@@ -836,9 +927,15 @@ function renderAuthModal() {
     <div class="auth-success">
       <i class="fa-solid fa-circle-user"></i>
       <p>Signed in as <strong>${user.name}</strong> (${user.email})</p>
+      <button class="btn btn-ghost" id="myOrdersBtn">My orders</button>
       <button class="btn btn-ghost" id="logoutBtn">Log out</button>
     </div>
   `);
+  document.getElementById("myOrdersBtn").addEventListener("click", () => {
+    closeModal(loginModal);
+    openModal(document.getElementById("cartModal"));
+    renderOrderHistory();
+  });
   document.getElementById("logoutBtn").addEventListener("click", () => {
     clearAuth();
     closeModal(loginModal);
@@ -846,14 +943,12 @@ function renderAuthModal() {
 }
 
 async function apiRequest(path, options = {}) {
+  const { headers: customHeaders, ...restOptions } = options;
   let response;
   try {
     response = await fetch(`${API_BASE}${path}`, {
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-      ...options,
+      headers: { "Content-Type": "application/json", ...(customHeaders || {}) },
+      ...restOptions,
     });
   } catch (err) {
     throw new Error(

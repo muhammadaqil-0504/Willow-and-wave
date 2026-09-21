@@ -11,15 +11,23 @@ router.post("/signup", (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    return res.status(400).json({ error: "Name, email and password are all required." });
+    return res
+      .status(400)
+      .json({ error: "Name, email and password are all required." });
   }
   if (password.length < 6) {
-    return res.status(400).json({ error: "Password must be at least 6 characters." });
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 6 characters." });
   }
 
-  const existing = db.prepare("SELECT id FROM users WHERE email = ?").get(email);
+  const existing = db
+    .prepare("SELECT id FROM users WHERE email = ?")
+    .get(email);
   if (existing) {
-    return res.status(409).json({ error: "An account with this email already exists." });
+    return res
+      .status(409)
+      .json({ error: "An account with this email already exists." });
   }
 
   const passwordHash = bcrypt.hashSync(password, 10);
@@ -27,11 +35,17 @@ router.post("/signup", (req, res) => {
     .prepare("INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)")
     .run(name, email, passwordHash);
 
-  const token = jwt.sign({ userId: result.lastInsertRowid }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
+  const token = jwt.sign(
+    { userId: result.lastInsertRowid },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    },
+  );
 
-  res.status(201).json({ token, user: { id: result.lastInsertRowid, name, email } });
+  res
+    .status(201)
+    .json({ token, user: { id: result.lastInsertRowid, name, email } });
 });
 
 // ===== Log in =====
@@ -47,8 +61,13 @@ router.post("/login", (req, res) => {
     return res.status(401).json({ error: "Incorrect email or password." });
   }
 
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-  res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+  res.json({
+    token,
+    user: { id: user.id, name: user.name, email: user.email },
+  });
 });
 
 module.exports = router;
